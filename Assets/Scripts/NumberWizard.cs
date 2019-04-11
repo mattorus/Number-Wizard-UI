@@ -9,6 +9,7 @@ public class NumberWizard : MonoBehaviour
     [SerializeField] int max;
     [SerializeField] int min;
     [SerializeField] TextMeshProUGUI guessText;
+    //[SerializeField] TextMeshProUGUI victoryText;
 
     private TreeNode root;
     private TreeNode tree;
@@ -16,7 +17,6 @@ public class NumberWizard : MonoBehaviour
     
     // Game 
     int guess;
-    private bool IsGameOver;
     private readonly int higher = +1;
     private readonly int lower = -1;
     
@@ -28,8 +28,11 @@ public class NumberWizard : MonoBehaviour
 
     public void OnPressHigher()
     {
-        min = guess + 1;
-        UpdateGuess(higher);
+        if (min < max)
+        {
+            min = guess + 1;
+            UpdateGuess(higher);
+        }
     }
 
     public void OnPressLower()
@@ -60,8 +63,7 @@ public class NumberWizard : MonoBehaviour
     }
 
     private void ResetGame()
-    {           
-        IsGameOver = false;
+    {
         NewGuess(min, max + 1);
         root = new TreeNode(guess);
         tree = root;
@@ -86,8 +88,8 @@ public class NumberWizard : MonoBehaviour
                 guessQueue.Enqueue(root.Right);
             }
         }
-        
-        IsGameOver = true;
+
+        //victoryText.text = $"Victory! It only took me {guessCount} tries!";
     }
 
     public void QuitGame()
